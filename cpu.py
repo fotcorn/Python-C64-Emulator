@@ -44,7 +44,7 @@ class CPU():
         
         while True:
             instr = self.fetch()
-            if instr[0] == 'BRK impl':
+            if instr[0] == 'BRK':
                 return
             self.execute(instr)
         
@@ -52,10 +52,19 @@ class CPU():
     def fetch(self):
         data = self.memory.read(self.PC.get())
         instr = instruction_set[data]
-        ret = [instr[0]]
-        for i in range(0, instr[1]):
+        instr[0]
+        
+        if instr[2] == 0:
+            ret = (instr[0], instr[1])
+        elif instr[2] == 1:
             self.PC.inc()
-            ret.append(self.memory.read(self.PC.get()))
+            ret = (instr[0], instr[1], self.memory.read(self.PC.get()))
+        elif instr[2] == 2:
+            self.PC.inc()
+            val1 = self.memory.read(self.PC.get())
+            self.PC.inc()
+            val2 = self.memory.read(self.PC.get())
+            ret = (instr[0], instr[1], val2*256+val1)
         self.PC.inc()
         return ret
     
