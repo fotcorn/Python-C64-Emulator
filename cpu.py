@@ -44,7 +44,7 @@ class CPU():
         while True:
             instr = self.fetch()
             self.PC.inc()
-            if instr[1] == 'BRK':
+            if instr['mnem'] == 'BRK':
                 return
             self.execute(instr)
         
@@ -103,7 +103,7 @@ class CPU():
     def execute(self, instr):
         # prepare
         mnem = instr['mnem']
-        arg_type = instr['arg_type']
+        #arg_type = instr['arg_type']
         if 'value' in instr:
             value = instr['value']
         if 'address' in instr:
@@ -117,7 +117,8 @@ class CPU():
         elif mnem == 'CLC':
             self.SR.C = False
         elif mnem == 'ADC':
-            pass
+# TODO: implement carry flag
+            self.A.set(self.A.get() + value)
         elif mnem == 'JSR':
             if address == 0xFFD2:
                 self.console.putc(self.A.get())
@@ -140,7 +141,4 @@ class CPU():
             self.PC.set(address)
         elif mnem == 'RTS':
             pass
-        
 
-        
-    
