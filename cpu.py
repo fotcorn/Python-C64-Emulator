@@ -98,6 +98,8 @@ class CPU():
             else:
                 instruction['address'] = data
         
+        if 'address' in instruction:
+            instruction['value'] = self.memory.read(instruction['address'])
         return instruction
         
     def execute(self, instr):
@@ -110,8 +112,16 @@ class CPU():
             address = instr['address']
         
         # comands
-        if mnem == 'LDY':
+        if mnem == 'LDA':
+            self.A.set(value)
+        elif mnem == 'LDX':
+            self.X.set(value)
+        elif mnem == 'LDY':
             self.Y.set(value)
+        elif mnem == 'TAX':
+            self.X.set(self.A.get())
+        elif mnem == 'TAY':
+            self.Y.set(self.A.get())
         elif mnem == 'TYA':
             self.A.set(self.Y.get())
         elif mnem == 'CLC':
@@ -137,8 +147,12 @@ class CPU():
                 self.PC.set(address)
         elif mnem == 'DEY':
             self.Y.dec()
+        elif mnem == 'INY':
+            self.Y.inc()
         elif mnem == 'JMP':
             self.PC.set(address)
         elif mnem == 'RTS':
             pass
+        else:
+            raise Exception("Instruciton not implemented: " + unicode(instr))
 

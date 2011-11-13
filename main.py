@@ -12,6 +12,6 @@ if __name__ == "__main__":
     cpu.console = console
     
     loader = programloader.ProgramLoader(memory)
-    loader.load_file('/home/corn/Projekte/6502emu/examples/asm/count10')
+    loader.load_file('/home/corn/Projekte/6502emu/examples/asm/simple-hello-world')
     
     cpu.run(0xC000)
