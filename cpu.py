@@ -46,6 +46,8 @@ class CPU():
             self.PC.inc()
             if instr['mnem'] == 'BRK':
                 return
+            if instr['mnem'] == 'RTS':
+                return
             self.execute(instr)
         
         
@@ -124,6 +126,8 @@ class CPU():
             self.Y.set(self.A.get())
         elif mnem == 'TYA':
             self.A.set(self.Y.get())
+        elif mnem == 'STA':
+            self.memory.write(address, self.A.get())
         elif mnem == 'CLC':
             self.SR.C = False
         elif mnem == 'ADC':
@@ -142,9 +146,29 @@ class CPU():
                 self.SR.Z = True
             else:
                 self.SR.Z = False
+        elif mnem == 'CPX':
+            res = self.X.get() - value
+            if res < 0:
+                self.SR.N = True
+            else:
+                self.SR.N = False
+            if res == 0:
+                self.SR.Z = True
+            else:
+                self.SR.Z = False
+        elif mnem == 'CPY':
+            res = self.Y.get() - value
+            if res < 0:
+                self.SR.N = True
+            else:
+                self.SR.N = False
+            if res == 0:
+                self.SR.Z = True
+            else:
+                self.SR.Z = False
         elif mnem == 'BEQ':
             if self.SR.Z:
-                self.PC.set(address)
+                self.PC.set(address+1)
         elif mnem == 'DEY':
             self.Y.dec()
         elif mnem == 'INY':
