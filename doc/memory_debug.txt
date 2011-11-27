@@ -1,0 +1,9 @@
+
+
+address    int    hex    instr  petsci
+49152      15     0x0F   LDA    'T'
+
+
+
+
+

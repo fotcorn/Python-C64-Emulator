@@ -12,6 +12,6 @@ if __name__ == "__main__":
     cpu.console = console
     
     loader = programloader.ProgramLoader(memory)
-    loader.load_file('/home/corn/Projekte/6502emu/examples/asm/sum')
+    loader.load_file('/home/corn/Projekte/6502emu/examples/conditional_jumps/task1')
     
     cpu.run(0xC000)

@@ -84,9 +84,9 @@ class CPU():
         elif 'ind' in arg_type:
 # TODO: implement indirect adressing 
             if arg_type == 'X,ind':
-                pass
+                instruction['address'] = (self.memory.get(data+1+self.Y.get()))
             else: # ind,y
-                pass
+                instruction['address'] = (self.memory.get(data+1)*256 + self.memory.get(data)) + self.Y.get()
         elif arg_type == 'rel':
             if data >> 7:
                 instruction['address'] = self.PC.get() - data - 128 
