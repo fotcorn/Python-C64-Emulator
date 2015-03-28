@@ -1,8 +1,8 @@
-
+import sys
 
 class Console(object):
     def putc(self, value):
-        print unichr(PETSCII[value])
+        sys.stdout.write(chr(PETSCII[value]))
 
 PETSCII = {
     0x05: 0xF100,
