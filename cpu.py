@@ -139,6 +139,8 @@ class CPU(object):
         elif mnem == 'JSR':
             if address == 0xFFD2:
                 self.console.putc(self.A.get())
+            else:
+                raise Exception('Instruction JSR not implemented for anything beside print (FFD2)')
         elif mnem == 'CMP':
             res = self.A.get() - value
             if res < 0:
@@ -178,7 +180,5 @@ class CPU(object):
             self.Y.inc()
         elif mnem == 'JMP':
             self.PC.set(address)
-        elif mnem == 'RTS':
-            pass
         else:
-            raise Exception("Instruciton not implemented: " + unicode(instr))
+            raise Exception('Instruction not implemented: {}'.format(mnem))
