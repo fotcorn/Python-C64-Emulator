@@ -1,10 +1,9 @@
 
 
-class Memory():
-    
-    
+class Memory(object):
+
     def __init__(self):
-        self.memory = {} # allocate 65kb memory
+        self.memory = {}  # allocate 65kb memory
     
     def write(self, address, value):
         if address < 0 or address > 2**16:
@@ -20,10 +19,3 @@ class Memory():
             return 0
         
         return self.memory[address]
-    
-    #def stack_push(self, value):
-    #    if value < 0 or value > 2**8:
-    #        raise Exception("Wrong value for stack_push: " + value)
-    #    self.cpu.SP.inc()
-    #    self.memory[self.cpu.SP.get()] = value
-    

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import sys
 
-import cpu
-import memory
-import programloader
-import console
+from cpu import CPU
+from memory import Memory
+from console import Console
+from programloader import ProgramLoader
 
 
 if __name__ == "__main__":
@@ -13,14 +13,12 @@ if __name__ == "__main__":
         print './main.py <program>'
         sys.exit(1)
 
-    cpu = cpu.CPU()
-    memory = memory.Memory()
-    console = console.Console()
+    memory = Memory()
+    console = Console()
+
+    cpu = CPU(memory, console)
     
-    cpu.memory = memory
-    cpu.console = console
-    
-    loader = programloader.ProgramLoader(memory)
+    loader = ProgramLoader(memory)
     loader.load_file(sys.argv[1])
     
     cpu.run(0xC000)

@@ -1,15 +1,17 @@
 from instruction_set import instruction_set
 
-class StatusRegister():
+
+class StatusRegister(object):
     def __init__(self):
-        self.N = False # negativ
-        self.B = False # break
-        self.D = False # decimal
-        self.I = False # interrupt (IRQ disabled)
-        self.Z = False # zero
-        self.C = False # carry
-    
-class Register():
+        self.N = False  # negativ
+        self.B = False  # break
+        self.D = False  # decimal
+        self.I = False  # interrupt (IRQ disabled)
+        self.Z = False  # zero
+        self.C = False  # carry
+
+
+class Register(object):
     def __init__(self, size):
         self.size = size
         self.value = 0
@@ -27,16 +29,18 @@ class Register():
     
     def dec(self):
         self.set(self.value - 1)
-        
 
-class CPU():
-    def __init__(self):
-        self.PC = Register(16) # program counter
-        self.A = Register(8) # accumulator
-        self.X = Register(8) # x register
-        self.Y = Register(8) # y register
-        self.SR = StatusRegister() # status register
-        self.SP = Register(8) # stack pointer
+
+class CPU(object):
+    def __init__(self, memory, console):
+        self.memory = memory
+        self.console = console
+        self.PC = Register(16)  # program counter
+        self.A = Register(8)  # accumulator
+        self.X = Register(8)  # x register
+        self.Y = Register(8)  # y register
+        self.SR = StatusRegister()  # status register
+        self.SP = Register(8)  # stack pointer
         
     def run(self, address):
         self.PC.set(address)
@@ -50,11 +54,10 @@ class CPU():
                 return
             self.execute(instr)
         
-        
     def fetch(self):
         data = self.memory.read(self.PC.get())
         mnem, arg_type, size = instruction_set[data]
-        instruction = {'mnem' : mnem, 'arg' : arg_type}
+        instruction = {'mnem': mnem, 'arg': arg_type}
         
         # fetch instruction with argument
         if size == 1:
@@ -82,7 +85,7 @@ class CPU():
         elif arg_type == 'ind':
             instruction['address'] = self.memory.get((data+1)*256) + self.memory.get(data)
         elif 'ind' in arg_type:
-# TODO: implement indirect adressing 
+            # TODO: implement indirect adressing
             if arg_type == 'X,ind':
                 instruction['address'] = (self.memory.get(data+1+self.Y.get()))
             else: # ind,y
@@ -131,7 +134,7 @@ class CPU():
         elif mnem == 'CLC':
             self.SR.C = False
         elif mnem == 'ADC':
-# TODO: implement carry flag
+        # TODO: implement carry flag
             self.A.set(self.A.get() + value)
         elif mnem == 'JSR':
             if address == 0xFFD2:
@@ -179,4 +182,3 @@ class CPU():
             pass
         else:
             raise Exception("Instruciton not implemented: " + unicode(instr))
-
