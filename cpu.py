@@ -50,8 +50,6 @@ class CPU(object):
             self.PC.inc()
             if instr['mnem'] == 'BRK':
                 return
-            if instr['mnem'] == 'RTS':
-                return
             self.execute(instr)
         
     def fetch(self):
@@ -125,6 +123,8 @@ class CPU(object):
             self.Y.set(value)
         elif mnem == 'TAX':
             self.X.set(self.A.get())
+        elif mnem == 'TXA':
+            self.A.set(self.X.get())
         elif mnem == 'TAY':
             self.Y.set(self.A.get())
         elif mnem == 'TYA':
@@ -174,10 +174,14 @@ class CPU(object):
         elif mnem == 'BEQ':
             if self.SR.Z:
                 self.PC.set(address+1)
-        elif mnem == 'DEY':
-            self.Y.dec()
+        elif mnem == 'INX':
+            self.X.inc()
+        elif mnem == 'DEX':
+            self.X.dec()
         elif mnem == 'INY':
             self.Y.inc()
+        elif mnem == 'DEY':
+            self.Y.dec()
         elif mnem == 'JMP':
             self.PC.set(address)
         else:
